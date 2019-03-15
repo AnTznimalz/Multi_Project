@@ -1,0 +1,59 @@
+html, body {margin: 0; height: 100%; overflow: hidden}
+body {
+    /* background: url('images/background.jpg'); */
+   	margin: 0;
+	padding: 0;
+	cursor: none;
+}
+
+/* #game-canvas {
+	position: relative;
+	border: 2px inset rgba(0,0,80,0.62); */
+
+	/* -webkit-transition: opacity 0.5s;
+	-moz-transition: opacity 0.5s;
+	-o-transition: opacity 0.5s;
+	transition: opacity 0.5s;
+
+	-webkit-box-shadow: rgba(0,0,0,0.5) 8px 8px 16px;
+	-moz-box-shadow: rgba(0,0,0,0.5) 8px 8px 16px;
+	-o-box-shadow: rgba(0,0,0,0.5) 8px 8px 16px;
+	box-shadow: rgba(0,0,0,0.5) 8px 8px 16px; */
+/* } */
+#game-canvas{
+	left: 183px; top:19px;
+}
+
+#wrapper{
+	width: 100%;
+	height: 100vh;
+	/* display: block; */
+	background-color: aquamarine;
+}
+
+#yay{
+	position: fixed;
+	z-index: 1;
+	width: 30px;
+	height: 30px;
+	top:65px; 
+	left:1140px;
+}
+
+#wow{
+	position: fixed;
+	z-index: 1;
+	width: 30px;
+	height: 30px;
+	top:65px; 
+	left:965px;
+}
+
+#yeah{
+	position: fixed;
+	z-index: 1;
+	width: 30px;
+	height: 30px;
+	top:65px; 
+	left:1305px;
+}
