@@ -20,7 +20,7 @@ var global_mouse_y = 0;
 
 
 //generate mons
-var marines_number = 10;
+var monster_number = 10;
 var isPause = false,
     isWin = false,
     isGameOver = false;
@@ -140,7 +140,7 @@ var MyNoti = {
 
         setTimeout(function() {
             MyNoti.noti = '';
-        }, 3000);
+        }, 1000);
     },
 
     levelUp: function() {
@@ -148,7 +148,7 @@ var MyNoti = {
 
         setTimeout(function() {
             MyNoti.noti = '';
-        }, 3000);
+        }, 2000);
     },
 
     pause: function() {
@@ -156,7 +156,7 @@ var MyNoti = {
 
         setTimeout(function() {
             MyNoti.noti = '';
-        }, 3000);
+        }, 1000);
     },
 
     draw: function() {
@@ -214,13 +214,11 @@ var MyProgressBar = {
     }
 }
 
-var MyFish = {
+var hero = {
     value: 1,
 
     x: 0,
     y: 0,
-    fish_left_image: 0,
-    fish_right_image: 0,
 
     width: 0,
     height: 0,
@@ -244,13 +242,13 @@ var MyFish = {
 
         setTimeout(function() {
             console.log('It\'s' + cur_value);
-            MyFish.value = cur_value;
-            console.log('hurt' + MyFish.value);
-        }, 3000);
+            hero.value = cur_value;
+            console.log('hurt' + hero.value);
+        }, 1000);
     }
 }
 
-var marines_source = [
+var picture_src = [
     "images/falling.png",
     "images/bullet_left.png",
     "images/bullet_right.png",
@@ -263,15 +261,15 @@ var marines_source = [
 
 ];
 //random mons
-var marines_ = [];
+var mons_array = [];
 
-var MyMarines = {
+var generate_mons = {
     getRandomInt: function(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     },
 
     add: function() {
-        var mr = {
+        var monster = {
             value: 0,
             top: 0,
             left: 0,
@@ -284,7 +282,6 @@ var MyMarines = {
             velocityY: 0,
         }
 
-        //1:13:12:4:1
         let preRand = this.getRandomInt(0, 30);
         var rand = 0;
 
@@ -307,133 +304,131 @@ var MyMarines = {
             rand = this.getRandomInt(1, 2);
         }
 
-        // rand = 8;
-
-        mr.img = new Image();
-        mr.img.src = marines_source[rand];
+        monster.img = new Image();
+        monster.img.src = picture_src[rand];
 
         if (rand == 0) {
-            mr.value = 1;
-            mr.width = 30;
-            mr.height = 30;
-            mr.velocityX = 0;
-            mr.velocityY = this.getRandomInt(1, 5);
-            mr.top = 0;
-            mr.left = this.getRandomInt(0 + 100, MyCanvas.background_width - 100);
+            monster.value = 1;
+            monster.width = 30;
+            monster.height = 30;
+            monster.velocityX = 0;
+            monster.velocityY = this.getRandomInt(1, 5);
+            monster.top = 0;
+            monster.left = this.getRandomInt(0 + 100, MyCanvas.background_width - 100);
         } else {
-            mr.velocityY = 0;
+            monster.velocityY = 0;
 
             if (rand == 1 || rand == 2) {
-                mr.value = 1;
-                mr.width = 40;
-                mr.height = 40;
+                monster.value = 1;
+                monster.width = 40;
+                monster.height = 40;
             }
 
             if (rand == 3 || rand == 4) {
-                mr.value = 2;
-                mr.width = 50;
-                mr.height = 50;
+                monster.value = 2;
+                monster.width = 50;
+                monster.height = 50;
             }
 
             if (rand == 5 || rand == 6) {
-                mr.value = 3;
-                mr.width = 80;
-                mr.height = 80;
+                monster.value = 3;
+                monster.width = 80;
+                monster.height = 80;
             }
 
             if (rand == 7 || rand == 8) {
-                mr.value = 4;
-                mr.width = 100;
-                mr.height = 100;
+                monster.value = 4;
+                monster.width = 100;
+                monster.height = 100;
             }
 
-            // right
+            // gen mons from right
             if (rand % 2 == 0) {
-                mr.velocityX = this.getRandomInt(1, 5);
-                mr.left = 0;
-                mr.top = this.getRandomInt(MyCanvas.canvas_max_top, MyCanvas.background_height - mr.height);
+                monster.velocityX = this.getRandomInt(1, 10);
+                monster.left = 0;
+                monster.top = this.getRandomInt(MyCanvas.canvas_max_top, MyCanvas.background_height - monster.height);
             } else {
-                // left
-                mr.velocityX = this.getRandomInt(-5, -1);
-                mr.left = MyCanvas.background_width;
-                mr.top = this.getRandomInt(MyCanvas.canvas_max_top, MyCanvas.background_height - mr.height);
+                // gen mons from left
+                monster.velocityX = this.getRandomInt(-10, -1);
+                monster.left = MyCanvas.background_width;
+                monster.top = this.getRandomInt(MyCanvas.canvas_max_top, MyCanvas.background_height - monster.height);
             }
         }
 
-        marines_.push(mr);
+        mons_array.push(monster);
     },
 
     update: function() {
-        for (var i = 0; i < marines_.length; i++) {
-            marines_[i].left += marines_[i].velocityX;
-            marines_[i].top += marines_[i].velocityY;
+        for (var i = 0; i < mons_array.length; i++) {
+            mons_array[i].left += mons_array[i].velocityX;
+            mons_array[i].top += mons_array[i].velocityY;
         }
     },
 
     draw: function() {
-        for (var i = 0; i < marines_.length; i++) {
-            var mr = marines_[i];
-            context_render.drawImage(mr.img, mr.left, mr.top, mr.width, mr.height);
+        for (var i = 0; i < mons_array.length; i++) {
+            var monster = mons_array[i];
+            context_render.drawImage(monster.img, monster.left, monster.top, monster.width, monster.height);
         }
     }
 }
 
-// check logic กินนนนนนนนนนนนนนนนนนนนนนนนนนน
+// check logic หลุดจอ หาย วาร์ป ไป เลย
 var MyCheck = {
     outOfRange: function() {
-        for (var i = 0; i < marines_.length; i++) {
-            var mr = marines_[i];
-            if (mr.left + mr.width < 0) {
-                marines_.splice(i, 1);
+        for (var i = 0; i < mons_array.length; i++) {
+            var monster = mons_array[i];
+            if (monster.left + monster.width < 0) {
+                mons_array.splice(i, 1);
                 continue;
             }
-            if (mr.left > MyCanvas.background_width) {
-                marines_.splice(i, 1);
+            if (monster.left > MyCanvas.background_width) {
+                mons_array.splice(i, 1);
                 continue;
             }
-            if (mr.top > MyCanvas.background_height) {
-                marines_.splice(i, 1);
+            if (monster.top > MyCanvas.background_height) {
+                mons_array.splice(i, 1);
                 continue;
             }
         }
 
-        // while (marines_.length <= marines_number) {
-        //     MyMarines.add();
+        // while (mons_array.length <= monster_number) {
+        //     generate_mons.add();
         // }
     },
 
     collision: function() {
 
-        var mr;
-        var fish_x, fish_y;
+        var monster;
+        var hero_x, hero_y;
         var cur_score = MyScore.score;
         var cur_heart = MyHeart.heart;
-        var cur_value = MyFish.value;
+        var cur_value = hero.value;
 
         // immortal :))
         if (cur_value == 100) {
             return;
         }
 
-        if (MyFish.direction == "L") {
-            fish_x = MyFish.x;
-            fish_y = MyFish.y + MyFish.height / 2;
+        if (hero.direction == "L") {
+            hero_x = hero.left;
+            hero_y = hero.top + hero.height / 2;
         } else {
-            fish_x = MyFish.x + MyFish.width;
-            fish_y = MyFish.y + MyFish.height / 2;
+            hero_x = hero.left + hero.width;
+            hero_y = hero.top + hero.height / 2;
         }
 
 
-        for (var i = 0; i < marines_.length; i++) {
-            mr = marines_[i];
+        for (var i = 0; i < mons_array.length; i++) {
+            monster = mons_array[i];
 
-            if (mr.left < fish_x && fish_x < mr.left + mr.width &&
-                mr.top < fish_y && fish_y < mr.top + mr.height) {
-                if (mr.value <= MyFish.value) {
-                    cur_score += mr.value;
-                    marines_.splice(i, 1);
+            if (monster.left < hero_x && hero_x < monster.left + monster.width &&
+                monster.top < hero_y && hero_y < monster.top + monster.height) {
+                if (monster.value <= hero.value) {
+                    cur_score += monster.value;
+                    mons_array.splice(i, 1);
                 } else {
-                    MyFish.lostHeart(cur_value);
+                    hero.lostHeart(cur_value);
                     MyNoti.lostHeart();
                     MyHeart.heart--;
 
@@ -446,8 +441,8 @@ var MyCheck = {
             }
         }
 
-        while (marines_.length <= marines_number) {
-            MyMarines.add();
+        while (mons_array.length <= monster_number) {
+            generate_mons.add();
         }
 
         // 
@@ -459,16 +454,16 @@ var MyCheck = {
             cur_value = 2;
             MyHeart.heart += 1;
             MyNoti.levelUp();
-            MyFish.width = 55;
-            MyFish.height = 55;
+            hero.width = 55;
+            hero.height = 55;
             console.log('level 2');
         }
         if (cur_value != 3 && score_to_level_3 <= cur_score && cur_score < score_to_level_4) {
             cur_value = 3;
             MyHeart.heart += 1;
             MyNoti.levelUp();
-            MyFish.width = 80;
-            MyFish.height = 80;
+            hero.width = 80;
+            hero.height = 80;
             console.log('level 3');
         }
 
@@ -477,7 +472,7 @@ var MyCheck = {
         }
 
         // UI
-        MyFish.value = cur_value;
+        hero.value = cur_value;
         MyScore.score = cur_score;
         MyProgressBar.value = cur_score;
     },
@@ -490,10 +485,10 @@ function setMousePosition(e) {
     var mouse_y = e.clientY;
 
     if (global_mouse_x < mouse_x) {
-        MyFish.direction = 'R';
+        hero.direction = 'R';
         document.getElementById('cursorID').src = 'images/hero_right.png'
     } else {
-        MyFish.direction = 'L';
+        hero.direction = 'L';
         document.getElementById('cursorID').src = 'images/hero_left.png'
     }
 
@@ -516,7 +511,7 @@ function setMousePosition(e) {
         global_mouse_y = canvas_bottom + 1;
     }
 
-    document.getElementById('cursorID').width = MyFish.width;
+    document.getElementById('cursorID').width = hero.width;
     document.getElementById('cursorID').style.left = (global_mouse_x) + 'px';
     document.getElementById('cursorID').style.top = (global_mouse_y) + 'px';
 }
@@ -542,7 +537,7 @@ document.onkeypress = function(e) {
 /*Stat when begin to play*/
 function init() {
     MyCanvas.init();
-    MyFish.init();
+    hero.init();
     MyScore.score = 0;
     MyHeart.heart = 3;
     MyProgressBar.init();
@@ -552,12 +547,12 @@ function init() {
     isGameOver = false;
 
 
-    while (marines_.length > 0) {
-        marines_.pop();
+    while (mons_array.length > 0) {
+        mons_array.pop();
     }
 
-    while (marines_.length < marines_number) {
-        MyMarines.add();
+    while (mons_array.length < monster_number) {
+        generate_mons.add();
     }
 
     console.log('init');
@@ -567,23 +562,24 @@ function init() {
 
 
 function beforeupdate() {
-    MyFish.x = global_mouse_x + trans_x;
-    MyFish.y = global_mouse_y + trans_y;
 
-    if (MyFish.x < background_left) {
-        MyFish.x = background_left;
+    hero.left = global_mouse_x + trans_x;
+    hero.top = global_mouse_y + trans_y;
+
+    if (hero.left < background_left) {
+        hero.left = background_left;
     }
 
-    if (MyFish.x > background_right) {
-        MyFish.x = background_right;
+    if (hero.left > background_right) {
+        hero.left = background_right;
     }
 
-    if (MyFish.y < background_top) {
-        MyFish.y = background_top;
+    if (hero.top < background_top) {
+        hero.top = background_top;
     }
 
-    if (MyFish.y > background_bottom) {
-        MyFish.y = background_bottom;
+    if (hero.top > background_bottom) {
+        hero.top = background_bottom;
     }
 
     if (global_mouse_x < canvas_left) {
@@ -622,10 +618,10 @@ function update() {
     MyCheck.outOfRange();
     MyCheck.collision();
 
-    MyMarines.update();
-    MyMarines.draw();
+    generate_mons.update();
+    generate_mons.draw();
 
-    MyFish.draw();
+    hero.draw();console.log("Hero");
     MyScore.draw();
     MyHeart.draw();
     MyNoti.draw();
@@ -656,6 +652,17 @@ function update() {
                 (MyCanvas.canvas_height - img.height) / 2);
         };
         return;
+    }
+    if (isPause) {
+        console.log("Pause")
+        setTimeout(function() {
+            var img = new Image();
+            img.src = "images/pause.jpg";
+            img.onload = function() {
+                context_main.drawImage(img, (MyCanvas.canvas_width - img.width) / 2,
+                    (MyCanvas.canvas_height - img.height) / 2);
+            };   
+        }, 1000);
     }
 
     if (!isPause) {
