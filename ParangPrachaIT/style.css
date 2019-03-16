@@ -1,3 +1,39 @@
+body{
+    font-size: 20px;
+    font-family: monospace;
+    cursor: url(http://www.rw-designer.com/cursor-extern.php?id=120666),auto;
+}
+
+#container{
+    margin : 20px auto;
+    background-color: white;
+    height: 300px;
+    width : 700px;
+    border-radius: 5px;
+    box-shadow: 0px 5px 15px 0px;
+    position: relative;
+}
+#start{
+    font-size: 1.5em;
+    font-weight: bolder;
+    word-break: break-all;
+    width:180px;
+    height:150px;
+    border : 2px solid lightgrey;
+    text-align: center;
+    cursor: pointer;
+    position: absolute;
+    left:250px;
+    top:50px;
+	color : lightgrey;
+	transition: 1s;
+}
+#start:hover{
+    border: 3px solid lightseagreen;
+    color : lightseagreen;
+}
+
+
 html, body {margin: 0; height: 100%; overflow: hidden}
 body {
     /* background: url('images/background.jpg'); */
@@ -6,23 +42,6 @@ body {
 	cursor: none;
 }
 
-/* #game-canvas {
-	position: relative;
-	border: 2px inset rgba(0,0,80,0.62); */
-
-	/* -webkit-transition: opacity 0.5s;
-	-moz-transition: opacity 0.5s;
-	-o-transition: opacity 0.5s;
-	transition: opacity 0.5s;
-
-	-webkit-box-shadow: rgba(0,0,0,0.5) 8px 8px 16px;
-	-moz-box-shadow: rgba(0,0,0,0.5) 8px 8px 16px;
-	-o-box-shadow: rgba(0,0,0,0.5) 8px 8px 16px;
-	box-shadow: rgba(0,0,0,0.5) 8px 8px 16px; */
-/* } */
-#game-canvas{
-	left: 183px; top:19px;
-}
 
 #wrapper{
 	position: absolute;

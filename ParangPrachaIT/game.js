@@ -136,11 +136,13 @@ var MyNoti = {
     color: 'rgb(0,255,0)',
 
     lostHeart: function() {
-        this.noti = 'Ouchhh!!!';
+        this.noti = 'Live -1!!!';
 
         setTimeout(function() {
             MyNoti.noti = '';
-        }, 1000);
+            const audio = new Audio("music/ouch.mp3");
+            audio.play();
+        }, 100);
     },
 
     levelUp: function() {
@@ -522,6 +524,9 @@ function changeScreenSize() {
     console.log('changeScreenSize');
 }
 window.addEventListener("resize", changeScreenSize);
+
+
+//Pause Function
 document.onkeypress = function(e) {
     e = e || window.event;
     if (e.keyCode == 112) { // Ascii value of 'p' == 112
@@ -533,7 +538,13 @@ document.onkeypress = function(e) {
             MyNoti.pause();
         }
     }
+    //Restart Function
+    if (e.keyCode == 114) { // Ascii value of 'r' == 114
+        location.reload();
+    }
 };
+
+
 /*Stat when begin to play*/
 function init() {
     MyCanvas.init();
@@ -638,6 +649,8 @@ function update() {
         img.onload = function() {
             context_main.drawImage(img, (MyCanvas.canvas_width - img.width) / 2,
                 (MyCanvas.canvas_height - img.height) / 2);
+            const audio = new Audio("music/win.mp3");
+            audio.play();
         };
 
         return;
@@ -650,7 +663,15 @@ function update() {
         img.onload = function() {
             context_main.drawImage(img, (MyCanvas.canvas_width - img.width) / 2,
                 (MyCanvas.canvas_height - img.height) / 2);
+                const audio = new Audio("music/fail.mp3");
+                audio.play();
         };
+        var wow = new Image();
+            wow.src = "images/restart.jpg";
+            wow.onload = function() {
+                context_main.drawImage(wow, (MyCanvas.canvas_width - wow.width) / 2,
+                    (MyCanvas.canvas_height - 200));
+            }; 
         return;
     }
     if (isPause) {
@@ -661,8 +682,13 @@ function update() {
             img.onload = function() {
                 context_main.drawImage(img, (MyCanvas.canvas_width - img.width) / 2,
                     (MyCanvas.canvas_height - img.height) / 2);
-            };   
-        }, 1000);
+            };
+            var wow = new Image();
+            wow.src = "images/restart.jpg";
+            wow.onload = function() {
+                context_main.drawImage(wow, (MyCanvas.canvas_width - wow.width) / 2,  (MyCanvas.canvas_height - 100));
+            };      
+        }, 100);
     }
 
     if (!isPause) {
@@ -676,4 +702,10 @@ background.src = "images/bg.jpg";
 background.onload = function() {
     init();
     update();
+    playvol();
+}
+
+function playvol() {
+    document.getElementById('game-audio').play();
+    setTimeout("playvol()", 3000);
 }
