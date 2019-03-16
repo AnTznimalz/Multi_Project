@@ -707,5 +707,5 @@ background.onload = function() {
 
 function playvol() {
     document.getElementById('game-audio').play();
-    setTimeout("playvol()", 3000);
+    setTimeout("playvol()", 1000);
 }
