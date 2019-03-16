@@ -6,7 +6,9 @@ body {
 	padding: 0;
 	cursor: none;
 }
-
+#game-canvas{
+	position: absolute;
+}
 
 #wrapper{
 	position: absolute;
