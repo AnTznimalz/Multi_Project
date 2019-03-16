@@ -8,6 +8,9 @@ var background_left, background_right, background_top, background_bottom;
 var canvas_left, canvas_right, canvas_top, canvas_bottom;
 var trans_x, trans_y, trans_x_max, trans_y_max, trans_value;
 
+var start = document.getElementsByClassName('txt');
+
+
 trans_x = 0;
 trans_y = 0;
 trans_value = 5;
@@ -95,7 +98,7 @@ var MyScore = {
     top: 60,
     lineWidth: 20,
     score: 0,
-    color: 'rgb(0,0,0)',
+    color: 'blue',
 
     draw: function() {
         this.left = 30 + trans_x;
@@ -114,7 +117,7 @@ var MyHeart = {
     top: 60,
     lineWidth: 20,
     heart: 3,
-    color: 'rgb(255,0,0)',
+    color: 'red',
 
     draw: function() {
         this.left = 250 + trans_x;
@@ -133,7 +136,7 @@ var MyNoti = {
     top: 60,
     lineWidth: 10,
     noti: '',
-    color: 'rgb(0,255,0)',
+    color: 'lightgreen',
 
     lostHeart: function() {
         this.noti = 'Live -1!!!';
