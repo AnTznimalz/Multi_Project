@@ -153,7 +153,11 @@ var MyNoti = {
 
         setTimeout(function() {
             MyNoti.noti = '';
+            const audio = new Audio("music/lvlup.mp3");
+            audio.play();
         }, 2000);
+
+        
     },
 
     pause: function() {
@@ -254,15 +258,15 @@ var hero = {
 }
 
 var picture_src = [
-    "images/falling.png",
-    "images/bullet_left.png",
-    "images/bullet_right.png",
+    "images/star.png",
+    "images/a_left.png",
+    "images/a_right.png",
     "images/missile_left.png",
     "images/missile_right.png",
     "images/rocket_left.png",
     "images/rocket_right.png",
-    "images/airplane_left.png",
-    "images/airplane_right.png",
+    "images/alien_left.png",
+    "images/alien_right.png",
 
 ];
 //random mons
