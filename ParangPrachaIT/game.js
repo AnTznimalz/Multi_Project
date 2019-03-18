@@ -29,9 +29,9 @@ var isPause = false,
     isWin = false,
     isGameOver = false;
 
-var score_to_level_2 = 20;
-var score_to_level_3 = 40;
-var score_to_level_4 = 60;
+var score_to_level_2 = 40;
+var score_to_level_3 = 80;
+var score_to_level_4 = 120;
 var background = new Image();
 background.width = window.innerWidth;
 background.height = window.innerHeight;
@@ -447,6 +447,12 @@ var MyCheck = {
                 monster.top < hero_y && hero_y < monster.top + monster.height) {
                 if (monster.value <= hero.value) {
                     cur_score += monster.value;
+                    
+        setTimeout(function() {
+            MyNoti.noti = '';
+            const audio = new Audio("music/pop.mp3");
+            audio.play();
+        }, 10);
                     mons_array.splice(i, 1);
                 } else {
                     hero.lostHeart(cur_value);
@@ -473,7 +479,7 @@ var MyCheck = {
         }
         if (cur_value != 2 && score_to_level_2 <= cur_score && cur_score < score_to_level_3) {
             cur_value = 2;
-            MyHeart.heart += 1;
+            MyHeart.heart += 0;
             MyNoti.levelUp();
             hero.width = 55;
             hero.height = 55;
@@ -481,7 +487,7 @@ var MyCheck = {
         }
         if (cur_value != 3 && score_to_level_3 <= cur_score && cur_score < score_to_level_4) {
             cur_value = 3;
-            MyHeart.heart += 1;
+            MyHeart.heart += 0;
             MyNoti.levelUp();
             hero.width = 80;
             hero.height = 80;
