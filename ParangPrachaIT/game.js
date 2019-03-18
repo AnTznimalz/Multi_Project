@@ -8,7 +8,6 @@ var background_left, background_right, background_top, background_bottom;
 var canvas_left, canvas_right, canvas_top, canvas_bottom;
 var trans_x, trans_y, trans_x_max, trans_y_max, trans_value;
 
-var start = document.getElementsByClassName('txt');
 
 
 trans_x = 0;
@@ -20,6 +19,8 @@ trans_y_max = 0;
 
 var global_mouse_x = 0;
 var global_mouse_y = 0;
+
+
 
 
 //generate mons
@@ -93,6 +94,60 @@ var MyCanvas = {
     },
 };
  
+
+var picture_onbar = [
+    "images/a_right.png",
+    "images/missile_right.png",
+    "images/rocket_right.png"
+];
+var pic1 = new Image();
+pic1.src = picture_onbar[0];
+var pic2 = new Image();
+pic2.src = picture_onbar[1];
+var pic3 = new Image();
+pic3.src = picture_onbar[2];
+var MyProgressBar = {
+    value: 0,
+    max_value: 100,
+    width: 500,
+    height: 10,
+    offsetX: 0,
+    offsetY: 0,
+    bg_color: 'rgb(255,255,255)',
+    line_color: 'red',
+    value_color: 'rgb(226,226,42)',
+
+    line1_offsetX: 0,
+    line2_offsetX: 0,
+
+    init: function() {
+        this.value = 0;
+        this.max_value = score_to_level_4;
+        this.offsetX = MyCanvas.canvas_width - this.width - 50;
+        this.offsetY = 50;
+        this.line1_offsetX = this.offsetX + this.width / 3;
+        this.line2_offsetX = this.offsetX + this.width / 3 * 2;
+    },
+
+    draw: function() {
+
+        if (this.value > this.max_value) {
+            this.value = this.max_value;
+        }
+        context_render.drawImage(pic1, this.line1_offsetX-180, this.offsetY+10, 30, 30);
+        context_render.drawImage(pic2, this.line1_offsetX-10, this.offsetY+10, 30, 30);
+        context_render.drawImage(pic3, this.line1_offsetX+150, this.offsetY+10, 30, 30);
+        context_render.lineJoin = 'round';
+        context_render.lineCap = 'round';
+        context_render.fillStyle = this.bg_color;
+        context_render.fillRect(this.offsetX + trans_x, this.offsetY + trans_y, this.width, this.height);
+        context_render.fillStyle = this.value_color;
+        context_render.fillRect(this.offsetX + trans_x, this.offsetY + trans_y, this.value / this.max_value * this.width, this.height);
+        context_render.fillStyle = this.line_color;
+        context_render.fillRect(this.line1_offsetX + trans_x, this.offsetY + trans_y - 1, 2, this.height + 1);
+        context_render.fillRect(this.line2_offsetX + trans_x, this.offsetY + trans_y - 1, 2, this.height + 1);
+    }
+}
 var MyScore = {
     left: 30,
     top: 60,
@@ -101,8 +156,8 @@ var MyScore = {
     color: 'blue',
 
     draw: function() {
-        this.left = 30 + trans_x;
-        this.top = 60 + trans_y;
+        this.left = 30;
+        this.top = 60;
         context_render.lineWidth = this.lineWidth;
         context_render.fillStyle = this.color;
 
@@ -120,8 +175,8 @@ var MyHeart = {
     color: 'red',
 
     draw: function() {
-        this.left = 250 + trans_x;
-        this.top = 60 + trans_y;
+        this.left = canvas_left+MyScore.left*8;
+        this.top = canvas_top+60;
         context_render.lineWidth = this.lineWidth;
         context_render.fillStyle = this.color;
 
@@ -132,7 +187,7 @@ var MyHeart = {
 }
 
 var MyNoti = {
-    left: 500,
+    left: 400,
     top: 60,
     lineWidth: 10,
     noti: '',
@@ -165,61 +220,18 @@ var MyNoti = {
 
         setTimeout(function() {
             MyNoti.noti = '';
-        }, 1000);
+        }, 2000);
     },
 
     draw: function() {
-        this.left = 640 + trans_x;
-        this.top = 60 + trans_y;
+        this.left = canvas_left+MyScore.left*18;
+        this.top = 60 + canvas_top;
         context_render.lineWidth = this.lineWidth;
         context_render.fillStyle = this.color;
 
         context_render.font = 'normal bold 5em courier';
 
         context_render.fillText(this.noti, this.left, this.top);
-    }
-}
- 
-var MyProgressBar = {
-    value: 0,
-    max_value: 100,
-    width: 500,
-    height: 10,
-    offsetX: 0,
-    offsetY: 0,
-    bg_color: 'rgb(255,255,255)',
-    line_color: 'rgb(0,255,0)',
-    value_color: 'rgb(226,226,42)',
-
-    line1_offsetX: 0,
-    line2_offsetX: 0,
-
-
-    init: function() {
-        this.value = 0;
-        this.max_value = score_to_level_4;
-        this.offsetX = MyCanvas.canvas_width - this.width - 50;
-        this.offsetY = 50;
-        this.line1_offsetX = this.offsetX + this.width / 3;
-        this.line2_offsetX = this.offsetX + this.width / 3 * 2;
-    },
-
-    draw: function() {
-
-        if (this.value > this.max_value) {
-            this.value = this.max_value;
-        }
-
-        context_render.lineJoin = 'round';
-        context_render.lineCap = 'round';
-        context_render.fillStyle = this.bg_color;
-        context_render.fillRect(this.offsetX + trans_x, this.offsetY + trans_y, this.width, this.height);
-        context_render.fillStyle = this.value_color;
-        context_render.fillRect(this.offsetX + trans_x, this.offsetY + trans_y, this.value / this.max_value * this.width, this.height);
-
-        context_render.fillStyle = this.line_color;
-        context_render.fillRect(this.line1_offsetX + trans_x, this.offsetY + trans_y - 1, 2, this.height + 1);
-        context_render.fillRect(this.line2_offsetX + trans_x, this.offsetY + trans_y - 1, 2, this.height + 1);
     }
 }
 
